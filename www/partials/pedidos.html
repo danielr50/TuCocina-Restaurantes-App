@@ -1,0 +1,83 @@
+<ion-view view-title="Tu Cocina Virtual">
+  <ion-content class="content">
+    <div class="row columna">
+      <div class="col col-100 barra-info">
+        <a href=""><p> <i class="ion-ios-arrow-left"></i> Hamburguesa doble carne</p></a>
+      </div>
+    </div>
+
+    <div class="row columna">
+      <div class="col col-100 pedidos-list">
+        <div class="card">
+          <div class="item item-divider">
+            Plato
+          </div>
+          <div class="item item-text-wrap">
+            <p>Hamburguesa de pollo</p>
+            <div class="foto-plato item item-image">
+                <img src="img/hamburguesa.jpg" alt="">
+                <p>Precio: <span >$10.000</span></p>
+            </div>
+            <div class="btn-pedir">
+                <button ng-click="resumen()" class="button button-block button-balanced"> <i class="ion-ios-plus-outline"></i> Agregar al pedido</button>
+            </div>
+             <div class="item item-divider">
+              <i class="icon ion-clipboard"></i>
+              Seleccionar Ingredientes 
+              </h1>
+            </div>
+            <div class="ingredientes">
+                <ul class="list">
+                  <li class="item item-checkbox">
+                     <label class="checkbox">
+                       <input checked="checked" type="checkbox">
+                     </label>
+                     Cebolla
+                  </li>
+                  <li class="item item-checkbox">
+                     <label class="checkbox">
+                       <input checked="checked" type="checkbox">
+                     </label>
+                     Tomate
+                  </li>
+                  <li class="item item-checkbox">
+                     <label class="checkbox">
+                       <input checked="checked" type="checkbox">
+                     </label>
+                     Lechuga
+                  </li>
+                </ul>
+            </div>
+            <div class="item item-divider">
+              <i class="icon ion-clipboard"></i>
+                Adionales
+              </h1>
+            </div>
+            <div class="adicionales">
+              <ul class="list">
+                  <li class="item item-checkbox item-button-right">
+                     <label class="checkbox">
+                       <input type="checkbox">
+                     </label>
+                     Lechuga
+                     <button class="button button-clear ">$19.000</button>
+                  </li>
+
+                  <li class="item item-checkbox item-button-right">
+                     <label class="checkbox">
+                       <input type="checkbox">
+                     </label>
+                     Lechuga
+                     <button class="button button-clear ">$19.000</button>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="item item-divider">
+            Total: $20000
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

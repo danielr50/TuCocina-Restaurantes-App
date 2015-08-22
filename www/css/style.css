@@ -1,0 +1,157 @@
+/* Empty. Add your own CSS if you like */
+body{
+	font-family: 'Quattrocento Sans', sans-serif;
+}
+.slider {
+  height: 125px;
+}
+.slider-slide {
+  padding-top: 45px;
+  color: #000;
+  background-color: #ecf0f1;
+  text-align: center;
+
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
+}
+.content-home{
+	margin-top: 80px;
+}
+.columna{
+	padding: 0;
+	margin:0;
+}
+.icon-menu{
+	text-align:center;
+}
+.columna .menu-item{
+	border: 1px #bdc3c7 dashed;
+	text-align: center;
+	/*background-color: rgba(0,0,0,0.2);*/
+}
+.columna .menu-item:hover{
+	background-color: rgba(0,0,0,0.1);
+}
+
+.columna .menu-item a{
+	text-decoration: none;
+	font-size: 1.8em;
+}
+
+.platos-list{
+	margin-top: 20px; 
+}
+
+.platos-list .list{
+	margin-top: 8px; 
+	margin-bottom: 0px !important;
+	padding-bottom: 0 !important;
+}
+.platos-list a {
+	margin: 0 !important;
+	padding-bottom: 0 !important;
+	/*padding: 0;*/
+}
+.platos-list .item-info{
+	float: right;
+}
+.barra-info{
+	background-color: #40B578;
+	color: #FFF;
+	/*text-align: center;*/
+}
+.barra-info a{
+	text-decoration: none;
+	color: #FFF;
+}
+.barra-info a:hover{
+	text-decoration: none;
+	color: #ecf0f1;
+}
+.barra-info a p{
+	/*padding: 6px;*/
+	margin: 0;
+	text-transform: uppercase;
+}
+.barra-info a p i{
+	margin-right: 8px;
+	font-size: 1.2em;
+}
+.foto-plato p{
+	background-color: rgba(0,0,0,0.2);
+	font-size: 1.2em;
+	text-align: center;
+	padding: 12px;
+	color: #FFF;
+	font-weight: bold;
+}
+ .pedidos-list h2{
+ 	text-align: center;
+ 	color: #2980b9;
+ 	font-size: 1.8em;
+ }
+
+ .cuadro-menu .menu-item-mesa{
+ 	color: #FFF;
+ 	text-align: center;
+ 	background-color: #2ecc71;
+ 	padding: 18px;
+ 	font-size: 2em;
+ }
+.cuadro-menu .menu-item-mesa i{
+ 	font-size: 2em;
+ }
+  .cuadro-menu .menu-item-mesa p{
+  	margin-top: 26px;
+ 	font-size: 1.1em;
+ 	color: #FFF;
+ }
+  .cuadro-menu{
+ 	text-align: center;
+ 	text-decoration: none;
+ }
+ .ver-menu{
+ 	text-align: center;
+ 	text-decoration: none;
+ 	background-color: #1abc9c;
+ 	color: #FFF;
+ 	padding: 12px;
+ }
+ .promociones{
+ 	text-align: center;
+ 	text-decoration: none;
+ 	background-color: #34495e;
+ 	color: #FFF;
+ 	padding: 12px;
+ }
+ .tu-pedido{
+ 	text-align: center;
+ 	text-decoration: none;
+ 	background-color: #e74c3c;
+ 	color: #FFF;
+ 	padding: 12px;
+ }
+ .pedir-cuenta{
+ 	text-align: center;
+ 	text-decoration: none;
+ 	background-color: #9b59b6;
+ 	color: #FFF;
+ 	padding: 12px;
+ }
+ .llamar-mesero{
+ 	text-align: center;
+ 	text-decoration: none;
+ 	background-color: #f39c12;
+ 	color: #FFF;
+ 	padding: 12px;
+ }
+ .ver-menu p, 
+ .promociones p, 
+ .tu-pedido p, 
+ .pedir-cuenta p, 
+ .llamar-mesero p{
+ 	color: #FFF;
+ }
+
+
+
