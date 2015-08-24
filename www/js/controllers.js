@@ -171,7 +171,7 @@ app.controller('menuCategoriasController', function($scope, $http, $location, lo
 });// fin menuCategoriasController
 
 // controlador para gestionar los platos
-app.controller('platosController', function($scope, $http, localStorageService){
+app.controller('platosController', function($scope, $http, $location, localStorageService){
 	id = localStorageService.get('idPlato');
 	$http.get('https://api-tucocina.herokuapp.com/api/platos/'+id)
 		.success(function(data){
@@ -181,10 +181,26 @@ app.controller('platosController', function($scope, $http, localStorageService){
 		.error(function(err){
 			console.log(err);
 		});
+
+	$scope.ingre = function(id_plato){
+		localStorageService.set('idPlato', id_plato);
+		$location.url('/pedidos');
+	}
 });//fin platosController
 
 // controlador para gestionar los pedidos
-app.controller('pedidosController', function($scope, $location){
+app.controller('pedidosController', function($scope, $location, $http, localStorageService){
+	//traigo todos los ingredientes de un plato
+	idplato = localStorageService.get('idPlato');
+	$http.get('https://api-tucocina.herokuapp.com/api/ingredientes/'+idplato)
+		.success(function(data){
+			console.log(data);
+			$scope.ingredientes = data;
+		})
+		.error(function(err){
+			console.log(err);
+		});
+
 	$scope.resumen = function(){
 		$location.url('/resumen');
 	}
