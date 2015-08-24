@@ -17,43 +17,17 @@
 
     <div class="row columna">
       <div class="col col-100 platos-list">
-      <div class="list">
+      <div class="list" ng-repeat="plato in platos">
           <a class="item item-thumbnail-left" href="#/pedidos">
             <img src="img/hamburguesa.jpg">
-            <h2>Hamburguesas del Oeste
+            <h2>{{plato.nombrePlato}}
             </h2>
-            <p>Calle 92 # 11 - 32
-          <div class="item-info">
-              <i class="ion-clipboard item1"></i>
+            <p>{{plato.descripcion}}
+            <div class="item-info">
+              ${{plato.valor}}
             </div>
             </p>
-            <p>Hamburguesas</p>
-          </a>
-      </div>
-      <div class="list">
-          <a class="item item-thumbnail-left" href="#">
-            <img src="img/hamburguesa.jpg">
-            <h2>Hamburguesas del Oeste
-            </h2>
-            <p>Calle 92 # 11 - 32
-          <div class="item-info">
-              <i class="ion-clipboard item1"></i>
-            </div>
-            </p>
-            <p>Hamburguesas</p>
-          </a>
-      </div>
-      <div class="list">
-          <a class="item item-thumbnail-left" href="#">
-            <img src="img/hamburguesa.jpg">
-            <h2>Hamburguesas del Oeste
-            </h2>
-            <p>Calle 92 # 11 - 32
-          <div class="item-info">
-              <i class="ion-clipboard item1"></i>
-            </div>
-            </p>
-            <p>Hamburguesas</p>
+            <p>{{plato.idCategoria.nombreCategoria}}</p>
           </a>
       </div>
       </div>

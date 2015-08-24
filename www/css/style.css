@@ -27,6 +27,8 @@ body{
 .columna .menu-item{
 	border: 1px #bdc3c7 dashed;
 	text-align: center;
+	padding: 0;
+	margin: 0;
 	/*background-color: rgba(0,0,0,0.2);*/
 }
 .columna .menu-item:hover{
@@ -152,6 +154,9 @@ body{
  .llamar-mesero p{
  	color: #FFF;
  }
-
+ .menu-par{
+ 	padding: 0;
+ 	margin: 0;
+ }
 
 
