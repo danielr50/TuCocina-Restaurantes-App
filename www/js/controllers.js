@@ -2,15 +2,14 @@
 var app = angular.module('tuCocina.controllers', ['LocalStorageModule']);
 
 //controlar para asignar la mesa
-app.controller('mesaController', function($scope, $ionicPopup, $timeout, $location){
+app.controller('mesaController', function($scope, $ionicPopup, $timeout, $location, localStorageService){
 	// Triggered on a button click, or some other target
 	$scope.showPopup = function() {
-		console.log('problemas?');
 	  $scope.data = {}
 
 	  // An elaborate, custom popup
 	  var myPopup = $ionicPopup.show({
-	    template: '<input type="text" ng-model="data.numMesa">',
+	    template: '<input style="border: 1px black dashed;" type="text" ng-model="data.numMesa">',
 	    title: 'Numero de la mesa',
 	    subTitle: 'Por favor ingrese el numero de la mesa asignada',
 	    scope: $scope,
@@ -31,7 +30,8 @@ app.controller('mesaController', function($scope, $ionicPopup, $timeout, $locati
 	    ]
 	  });
 	  myPopup.then(function(res) {
-	    console.log('Tapped!', res);
+	    console.log('Mesa!', res);
+	    localStorageService.set('numMesa', res);
 	    $location.url('/home');
 	  });
 	  // $timeout(function() {
@@ -131,7 +131,6 @@ app.controller('introController', function($scope, $state){
 	  };
 }); //fin introControler
 
-
 //Controlador home
 app.controller('homeController', function($scope, $state, $location) {
   $scope.toIntro = function(){
@@ -145,17 +144,63 @@ app.controller('homeController', function($scope, $state, $location) {
 });//fin homeControler
 
 // controlador para gestionar las categorias del menu
-app.controller('menuCategoriasController', function($scope){
+app.controller('menuCategoriasController', function($scope, $http, $location, localStorageService){
+	//traigo todas las cateorias del restaurante
+	$http.get('https://api-tucocina.herokuapp.com/api/categorias')
+		.success(function(data){
+			console.log(data);
+			$scope.categorias = data;
+		})
+		.error(function(err){
+			console.log(err);
+		});
 
+
+	$scope.list_platos = function(id){
+		localStorageService.set('idPlato', id);
+		$location.url('platos');
+	}
+
+	$scope.par = function(num){
+		if(num % 2 == 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
 });// fin menuCategoriasController
 
 // controlador para gestionar los platos
-app.controller('platosController', function($scope){
+app.controller('platosController', function($scope, $http, $location, localStorageService){
+	id = localStorageService.get('idPlato');
+	$http.get('https://api-tucocina.herokuapp.com/api/platos/'+id)
+		.success(function(data){
+			console.log(data);
+			$scope.platos = data;
+		})
+		.error(function(err){
+			console.log(err);
+		});
 
+	$scope.ingre = function(id_plato){
+		localStorageService.set('idPlato', id_plato);
+		$location.url('/pedidos');
+	}
 });//fin platosController
 
 // controlador para gestionar los pedidos
-app.controller('pedidosController', function($scope, $location){
+app.controller('pedidosController', function($scope, $location, $http, localStorageService){
+	//traigo todos los ingredientes de un plato
+	idplato = localStorageService.get('idPlato');
+	$http.get('https://api-tucocina.herokuapp.com/api/ingredientes/'+idplato)
+		.success(function(data){
+			console.log(data);
+			$scope.ingredientes = data;
+		})
+		.error(function(err){
+			console.log(err);
+		});
+
 	$scope.resumen = function(){
 		$location.url('/resumen');
 	}

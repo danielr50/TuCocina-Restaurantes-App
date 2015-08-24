@@ -1,73 +1,39 @@
 <ion-view view-title="Tu Cocina Virtual">
   <ion-content class="content">
       <div class="row columna">
-      <div class="col co-100 menu-content">
+      <div class="col col-100 menu-content">
         <div class="card">
           <div class="item item-divider">
             Tipos de comida
           </div>
           <div class="item item-text-wrap">
-            <div class="col co-100">
-            <div class="row">
-                <div class="col col-50">
+            <div class="col col-100 menu-par" >
+              <div class="row">
+                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="!par($index)">
                   <div class="menu-item">
-                    <a href="#/platos">
+                    <a href="" ng-click="list_platos(categoria._id)">
                       <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Hamburguesas</p>
+                      <p>{{categoria.nombreCategoria}}</p>
                     </a>
+                    <!-- <div > -->
+                    <!-- </div> -->
                   </div>
                 </div>
-                <div class="col col-50">
-                  <div class="menu-item">
-                    <a href="">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Bebidas</p>
-                    </a>
-                  </div>
-                </div>
+              </div>
             </div>
-            </div>
- 
-            <div class="col co-100">
-            <div class="row">
-                <div class="col col-50">
+            <div class="col col-100 menu-par">
+              <div class="row">
+                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="par($index)">
                   <div class="menu-item">
-                    <a href="">
+                    <a href="" ng-click="list_platos(categoria._id)">
                       <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Planchoz</p>
+                      <p>{{categoria.nombreCategoria}}</p>
                     </a>
+                    <!-- <div > -->
+                    <!-- </div> -->
                   </div>
                 </div>
-                <div class="col col-50">
-                  <div class="menu-item">
-                    <a href="">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Chuzos</p>
-                    </a>
-                  </div>
-                </div>
-            </div>
-            </div>
-
-            <div class="col co-100">
-             <div class="row">
-                <div class="col col-50">
-                  <div class="menu-item">
-                    <a href="">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Platos típicos</p>
-                    </a>
-                  </div>
-                </div>
-                <div class="col col-50">
-                  <div class="menu-item">
-                    <a href="">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>Adicionales</p>
-                    </a>
-                  </div>
-                </div>
-            </div>
+              </div>
             </div>
           </div>
         </div>
