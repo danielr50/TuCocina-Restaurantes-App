@@ -28,23 +28,11 @@
             </div>
             <div class="ingredientes">
                 <ul class="list">
-                  <li class="item item-checkbox">
+                  <li class="item item-checkbox" ng-repeat="ingrediente in ingredientes">
                      <label class="checkbox">
                        <input checked="checked" type="checkbox">
                      </label>
-                     Cebolla
-                  </li>
-                  <li class="item item-checkbox">
-                     <label class="checkbox">
-                       <input checked="checked" type="checkbox">
-                     </label>
-                     Tomate
-                  </li>
-                  <li class="item item-checkbox">
-                     <label class="checkbox">
-                       <input checked="checked" type="checkbox">
-                     </label>
-                     Lechuga
+                     {{ingrediente.nombreIngrediente}}
                   </li>
                 </ul>
             </div>
