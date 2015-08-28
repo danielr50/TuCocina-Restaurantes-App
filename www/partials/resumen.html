@@ -1,10 +1,10 @@
 <ion-view view-title="Tu Cocina Virtual">
   <ion-content class="content">
-    <div class="row columna">
+    <!-- <div class="row columna">
       <div class="col col-100 barra-info">
         <a href=""><p> <i class="ion-ios-arrow-left"></i> Tu pedido</p></a>
       </div>
-    </div>
+    </div> -->
 
     <div class="row columna">
       <div class="col col-100 pedidos-list">
@@ -14,29 +14,22 @@
           </div>
           <div class="item item-text-wrap">
             <div class="list">
-                <a class="item" href="#">
+                <a class="item" href="" ng-repeat="pe in pedido">
                   <!-- <i class="icon ion-mic-a"></i> -->
-                  Hamburguesa de pollo
+                  {{pe.plato}}
                   <span class="item-note">
-                    $20.000
+                    ${{pe.precio}}
                   </span>
                 </a>
-                <a class="item" href="#">
-                  <!-- <i class="icon ion-mic-a"></i> -->
-                  Hamburguesa de pollo
-                  <span class="item-note">
-                    $20.000
-                  </span>
-                </a>
-              </div>
+            </div>
           </div>
           <div>
-            <button class="button button-block button-positive">
+            <!-- <button ng-click="otro_plato()" class="button button-block button-positive">
               Agregr otro plato
-            </button>
+            </button> -->
           </div>
           <div class="item item-divider">
-            <h2> Total: $40.000</h2>
+            <h2> Total: ${{precioFinal}}</h2>
           </div>
         </div>
           <div>

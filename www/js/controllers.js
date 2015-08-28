@@ -132,11 +132,13 @@ app.controller('introController', function($scope, $state){
 }); //fin introControler
 
 //Controlador home
-app.controller('homeController', function($scope, $state, $location) {
+app.controller('homeController', function($scope, $state, $location,localStorageService) {
   $scope.toIntro = function(){
     window.localStorage['didTutorial'] = "false";
     $state.go('intro');
   }
+
+  localStorageService.set('numPedido', 1);
 
   // $scope.menuCategoria = function(){
   // 	$location.url('/menu-cetegorias');
@@ -144,10 +146,21 @@ app.controller('homeController', function($scope, $state, $location) {
 });//fin homeControler
 
 // controlador para gestionar las categorias del menu
-app.controller('menuCategoriasController', function($scope, $http, $location, localStorageService){
+app.controller('menuCategoriasController', function($scope, $http, $location, localStorageService, $ionicLoading, $timeout){
+	// Setup the loader
+	  $ionicLoading.show({
+	    content: 'Loading',
+	    animation: 'fade-in',
+	    showBackdrop: true,
+	    maxWidth: 200,
+	    showDelay: 0
+	  });
+	
 	//traigo todas las cateorias del restaurante
 	$http.get('https://api-tucocina.herokuapp.com/api/categorias')
 		.success(function(data){
+			$ionicLoading.hide();
+
 			console.log(data);
 			$scope.categorias = data;
 		})
@@ -155,15 +168,14 @@ app.controller('menuCategoriasController', function($scope, $http, $location, lo
 			console.log(err);
 		});
 
-
 	$scope.list_platos = function(id){
 		localStorageService.set('idPlato', id);
 		$location.url('platos');
 	}
 
 	$scope.par = function(num){
-		if(num % 2 == 1){
-			return true;
+		if(num % 2 === 0){
+			return true; 
 		}else{
 			return false;
 		}
@@ -173,7 +185,7 @@ app.controller('menuCategoriasController', function($scope, $http, $location, lo
 // controlador para gestionar los platos
 app.controller('platosController', function($scope, $http, $location, localStorageService){
 	id = localStorageService.get('idPlato');
-	$http.get('https://api-tucocina.herokuapp.com/api/platos/'+id)
+	$http.get('https://api-tucocina.herokuapp.com/api/platos_categorias/'+id)
 		.success(function(data){
 			console.log(data);
 			$scope.platos = data;
@@ -189,7 +201,16 @@ app.controller('platosController', function($scope, $http, $location, localStora
 });//fin platosController
 
 // controlador para gestionar los pedidos
-app.controller('pedidosController', function($scope, $location, $http, localStorageService){
+app.controller('pedidosController', function($scope, $location, $http, localStorageService, $timeout, $ionicLoading){
+	// Setup the loader
+	  $ionicLoading.show({
+	    content: 'Loading',
+	    animation: 'fade-in',
+	    showBackdrop: true,
+	    maxWidth: 200,
+	    showDelay: 0
+	  });
+
 	//traigo todos los ingredientes de un plato
 	idplato = localStorageService.get('idPlato');
 	$http.get('https://api-tucocina.herokuapp.com/api/ingredientes/'+idplato)
@@ -201,15 +222,150 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 			console.log(err);
 		});
 
+	$http.get('https://api-tucocina.herokuapp.com/api/platos/'+idplato)
+		.success(function(data){
+			$ionicLoading.hide();
+
+			console.log("Plato");
+			console.log(data);
+			$scope.plato = data;
+			localStorageService.set('valorPlato', data.valor);
+		})
+		.error(function(err){
+			console.log(err);
+		});
+
+	$http.get('https://api-tucocina.herokuapp.com/api/adicionales/'+idplato)
+		.success(function(data){
+			$scope.adicionales = data;
+		})
+		.error(function(err){
+			console.log(err);
+		});
+
+
+
+	$scope.noSelect = function(ingre){
+		
+		// localStorageService.set('ingrediente', ingre);
+		// console.log(ingre);
+	}
+
+
+
+	$scope.activo = false;
+
+	$scope.ingredientesSeleccionados = function(valor){
+		console.log('Cambio');
+		if (!$scope.activo) {
+			$scope.activo = true;
+			$scope.plato.valor +=  valor;
+		}else{
+			$scope.activo = false;
+			$scope.plato.valor -=  valor;
+		}
+
+		// if ($scope.activo) {
+		// 	$scope.plato.valor +=  valor;
+		// }else{
+		// 	$scope.plato.valor -=  valor;
+		// }
+	}
+	$scope.cantidad = 1;
+	 localStorageService.set('cantidad', $scope.cantidad);
+	$scope.mas = function(){
+		var precio = localStorageService.get('valorPlato');
+		$scope.cantidad += +1;
+		$scope.plato.valor += precio;
+		localStorageService.set('cantidad', $scope.cantidad);
+		console.log($scope.plato.valor);
+	}
+	$scope.menos = function(){
+		var precio = localStorageService.get('valorPlato');
+		$scope.cantidad += -1;
+		$scope.plato.valor -= precio;
+		localStorageService.set('cantidad', $scope.cantidad);
+		console.log($scope.plato.valor);
+	}
+
 	$scope.resumen = function(){
+		divCont = document.getElementById('dinamicos');
+		checks  = divCont.getElementsByTagName('input');
+		console.log(checks.length);
+		var ingre = [];
+		for(var i =0; i < checks.length; i++){
+		    if(checks[i].checked == true){
+		    	console.log('valor de i: '+i);
+		    	var  text = checks[i].value;
+		    	ingre[i] = text;
+		    	
+		    }
+		}
+		console.log('Seleccionados: '+text);
+		console.log(ingre);
+
+		var mesa = localStorageService.get('numMesa');
+		var numPedido = localStorageService.get('numPedido');
+		var cantidad = localStorageService.get('cantidad');
+
+		// creo un objeto con los datos del pedido
+		var pedido = {
+			plato: $scope.plato.nombrePlato,
+			precio: $scope.plato.valor,
+			mesa: mesa,
+			cantidad: cantidad
+		};
+		localStorageService.set('pedido-'+numPedido, pedido);
+
+		// var numPedido = localStorageService.get('numPedido');
+		numPedido = numPedido+1;
+		localStorageService.set('numPedido', numPedido);
+
 		$location.url('/resumen');
 	}
 });//fin pedidosController
 
 // controlador para gestionar el resumen del pedido
-app.controller('resumenController', function($scope, $ionicPopup, $timeout){
+app.controller('resumenController', function($scope, $ionicPopup, $timeout, $location, localStorageService, $ionicLoading, $http){
 	$scope.hacerPedido = true;
-	// A confirm dialog
+	$scope.precioFinal = 0;
+	// listar pedidos
+	var pedido = localStorageService.get('pedido');
+	var numPedido = localStorageService.get('numPedido');
+	var pedidos = [];
+	for(var i = 1; i <= numPedido; i++){
+		var mypedido = localStorageService.get('pedido-'+i);
+		pedidos[i] = mypedido;
+		// $scope.precioFinal += pedido.precio;
+		if(mypedido != null){
+			console.log('pedido: '+mypedido.precio);
+			$scope.precioFinal = $scope.precioFinal + mypedido.precio;
+			localStorageService.set('precioFinal', $scope.precioFinal);
+		}
+	}
+
+	console.log(pedidos);
+
+	// Setup the loader
+	  $ionicLoading.show({
+	    content: 'Loading',
+	    animation: 'fade-in',
+	    showBackdrop: true,
+	    maxWidth: 200,
+	    showDelay: 0
+	  });
+		  
+	  // Set a timeout to clear loader, however you would actually call the $ionicLoading.hide(); method whenever everything is ready or loaded.
+	  $timeout(function () {
+	    $ionicLoading.hide();
+		$scope.pedido = pedidos.filter(Boolean);
+	  }, 2000);
+
+	$scope.otro_plato = function(){
+		$location.url('/menu-categorias');
+	}
+
+// A confirm dialog
  $scope.confirmarPedido = function() {
    var confirmPopup = $ionicPopup.confirm({
      title: 'Confirmación de envío',
@@ -218,14 +374,50 @@ app.controller('resumenController', function($scope, $ionicPopup, $timeout){
    confirmPopup.then(function(res) {
      if(res) {
        console.log('Dijo que si');
-        var alertPopup = $ionicPopup.alert({
-	    title: 'Enviado!',
-	    template: 'Su pedido ha sido enviado con éxito!'
-	   	});
-	   	alertPopup.then(function(res) {
-	     	console.log('Se fue el pedido xD');
-	     	$scope.hacerPedido = false;
-	  	 });
+       // envio el pedido
+       	var pedido = localStorageService.get('pedido');
+		var numPedido = localStorageService.get('numPedido');
+		var pedidos = [];
+		for(var i = 1; i <= numPedido; i++){
+			var mypedido = localStorageService.get('pedido-'+i);
+			pedidos[i] = mypedido;
+			// $scope.precioFinal += pedido.precio;
+		}
+		var precioFinal = localStorageService.get('precioFinal');
+
+		var pedidoFinal = pedidos.filter(Boolean);
+
+		var pedido = {
+			pedido: pedidoFinal,
+			precioFinal: precioFinal
+		};
+
+		$http.post('https://api-tucocina.herokuapp.com/api/pedidos', pedido)
+			.success(function(data){
+				console.log(data);
+				var alertPopup = $ionicPopup.alert({
+			    title: 'Enviado!',
+			    template: 'Su pedido ha sido enviado con éxito!'
+			   	});
+			   	alertPopup.then(function(res) {
+			     	console.log('Se fue el pedido xD');
+
+			     	var pedido = localStorageService.get('pedido');
+					var numPedido = localStorageService.get('numPedido');
+					var pedidos = [];
+					for(var i = 1; i <= numPedido; i++){
+						var mypedido = localStorageService.remove('pedido-'+i);
+					}
+
+			     	$scope.hacerPedido = false;
+			     	localStorageService.set('numPedido', 1);
+			     	localStorageService.remove('precioFinal', 'valorPlato', 'idPlato', 'cantidad');
+					$location.url('/home');
+			  	});
+				})
+			.error(function(err){
+				console.log(err);
+			});
 
      } else {
        console.log('Dijo que no');
