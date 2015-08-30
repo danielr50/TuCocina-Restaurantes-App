@@ -7,20 +7,6 @@
             Tipos de comida
           </div>
           <div class="item item-text-wrap">
-            <div class="col col-100 menu-par" >
-              <div class="row">
-                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="!par($index)">
-                  <div class="menu-item">
-                    <a href="" ng-click="list_platos(categoria._id)">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>{{categoria.nombreCategoria}}</p>
-                    </a>
-                    <!-- <div > -->
-                    <!-- </div> -->
-                  </div>
-                </div>
-              </div>
-            </div>
             <div class="col col-100 menu-par">
               <div class="row">
                 <div class="col col-50" ng-repeat="categoria in categorias" ng-if="par($index)">
@@ -29,8 +15,18 @@
                       <i class="ion-ios-email-outline icon-menu"></i>
                       <p>{{categoria.nombreCategoria}}</p>
                     </a>
-                    <!-- <div > -->
-                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col col-100 menu-par">
+              <div class="row">
+                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="!par($index)">
+                  <div class="menu-item">
+                    <a href="" ng-click="list_platos(categoria._id)">
+                      <i class="ion-ios-email-outline icon-menu"></i>
+                      <p>dos {{categoria.nombreCategoria}}</p>
+                    </a>
                   </div>
                 </div>
               </div>
