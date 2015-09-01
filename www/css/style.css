@@ -1,6 +1,13 @@
 /* Empty. Add your own CSS if you like */
+@font-face {
+    font-family: "Aller";
+    src: url("../fonts/Aller.ttf");
+}
+
 body{
-	font-family: 'Quattrocento Sans', sans-serif;
+
+
+	font-family: 'Aller','Quattrocento Sans', sans-serif;
 }
 
 .no-padding{
@@ -30,7 +37,7 @@ body{
 	text-align:center;
 }
 .columna .menu-item{
-	border: 1px #bdc3c7 dashed;
+	border: 1px #bdc3c7 solid;
 	text-align: center;
 	padding: 0;
 	margin: 0;
@@ -177,3 +184,32 @@ body{
 	float: right;
 	margin: 2px;
 }
+
+
+.opcionesMenu{
+	background:lightgrey;
+	color:white;
+	text-align:center;
+	height:80px;
+}
+
+.opcionesMenu:hover{
+	background:blue;
+	color:white;
+	text-align:center;
+}
+
+.letraBlanca{
+	color:white;
+	font-size:2.5em;
+}
+.noPadding{
+	padding:2px;
+}
+
+
+.agrandoIcono{
+	font-size:2.5em;
+}
+
+.agrandoLetra{font-size:1.3em !important;}

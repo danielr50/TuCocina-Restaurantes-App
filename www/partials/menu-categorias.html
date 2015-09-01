@@ -4,30 +4,17 @@
       <div class="col col-100 menu-content">
         <div class="card">
           <div class="item item-divider">
-            Tipos de comida
+            <p>Tipos de comida</p> Escoge que deseas
           </div>
           <div class="item item-text-wrap">
             <div class="col col-100 menu-par">
-              <div class="row">
-                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="par($index)">
-                  <div class="menu-item">
-                    <a href="" ng-click="list_platos(categoria._id)">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>{{categoria.nombreCategoria}}</p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col col-100 menu-par">
-              <div class="row">
-                <div class="col col-50" ng-repeat="categoria in categorias" ng-if="!par($index)">
-                  <div class="menu-item">
-                    <a href="" ng-click="list_platos(categoria._id)">
-                      <i class="ion-ios-email-outline icon-menu"></i>
-                      <p>dos {{categoria.nombreCategoria}}</p>
-                    </a>
-                  </div>
+              <div class="row noPadding" ng-repeat="rows in chunkedData">
+               <div class="row noPadding">
+                  <a class="menu-item col col-50 opcionesMenu" ng-repeat="item in rows" ng-click="list_platos(item._id)">
+                        <i  class="ion-ios-email-outline icon-menu agrandoIcono"></i>
+                    
+                    <p  class="letraBlanca agrandoLetra">{{item.nombreCategoria}}</p> 
+                  </a>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('tuCocina', ['ionic', 'ngCordova', 'tuCocina.controllers', 'tuCocina.services'])
 
+// viene por default con ionic -  
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -18,6 +19,7 @@ angular.module('tuCocina', ['ionic', 'ngCordova', 'tuCocina.controllers', 'tuCoc
   });
 })
 
+// router
 .config(function($stateProvider, $urlRouterProvider){
     $stateProvider
     .state('intro', {

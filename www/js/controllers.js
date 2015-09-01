@@ -147,7 +147,7 @@ app.controller('homeController', function($scope, $state, $location,localStorage
 
 // controlador para gestionar las categorias del menu
 app.controller('menuCategoriasController', function($scope, $http, $location, localStorageService, $ionicLoading, $timeout){
-	// Setup the loader
+	// Setup the ionic loader
 	  $ionicLoading.show({
 	    content: 'Loading',
 	    animation: 'fade-in',
@@ -162,24 +162,43 @@ app.controller('menuCategoriasController', function($scope, $http, $location, lo
 			$ionicLoading.hide();
 
 			console.log(data);
+			// guardo lo que me llega en categorias
 			$scope.categorias = data;
+
+			// funcion para cortar el array que llega
+			// para desplegarlo en dos columnas
+			function chunk(arr, size) {
+			  var newArr = [];
+			  for (var i=0; i<arr.length; i+=size) {
+			    newArr.push(arr.slice(i, i+size));
+
+			  }
+			  console.log(newArr);
+			  return newArr;
+			}
+			$scope.chunkedData = chunk($scope.categorias, 2);
+		
 		})
 		.error(function(err){
 			console.log(err);
-		});
+
+		});	
+
+
+		
 
 	$scope.list_platos = function(id){
 		localStorageService.set('idPlato', id);
+		console.log(id);
 		$location.url('platos');
 	}
 
-	$scope.par = function(num){
-		if(num % 2 === 0){
-			return true; 
-		}else{
-			return false;
-		}
-	}
+
+	
+	
+
+
+
 });// fin menuCategoriasController
 
 // controlador para gestionar los platos
