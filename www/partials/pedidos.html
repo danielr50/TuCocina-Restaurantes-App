@@ -35,7 +35,7 @@
             </div>
             <div class="ingredientes">
                 <ul class="list">
-                  <div id="dinamicos">
+                  <div id="ingredientes">
                   <li class="item item-checkbox" ng-repeat="ingrediente in ingredientes">
                     <form name="frmIngredientes">
                      
@@ -58,13 +58,15 @@
             </div>
             <div class="adicionales">
               <ul class="list">
+              <div id="adicionales">
                   <li class="item item-checkbox item-button-right" ng-repeat="adicional in adicionales">
                      <label class="checkbox">
-                       <input ng-model="activo" ng-change="ingredientesSeleccionados(adicional.valor)" type="checkbox">
+                       <input ng-model="activo" ng-change="ingredientesSeleccionados(adicional.valor)" type="checkbox" value="{{adicional.nombreAdicional}}">
                      </label>
                      {{adicional.nombreAdicional}}
                      <button class="button button-clear ">${{adicional.valor}}</button>
                   </li>
+              </div>
               </ul>
             </div>
           </div>
