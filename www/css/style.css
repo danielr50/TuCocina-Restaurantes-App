@@ -201,7 +201,6 @@ body{
 
 .letraBlanca{
 	color:white;
-	font-size:2.5em;
 }
 .noPadding{
 	padding:2px;
@@ -212,4 +211,4 @@ body{
 	font-size:2.5em;
 }
 
-.agrandoLetra{font-size:1.3em !important;}
+.agrandoLetra{font-size:1.1em !important;}
