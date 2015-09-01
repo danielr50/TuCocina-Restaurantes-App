@@ -1,6 +1,7 @@
 // modulo para de la app para crear los controladores
 var app = angular.module('tuCocina.controllers', ['LocalStorageModule']);
 
+
 //controlar para asignar la mesa
 app.controller('mesaController', function($scope, $ionicPopup, $timeout, $location, localStorageService){
 	// Triggered on a button click, or some other target
@@ -213,7 +214,7 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 
 	//traigo todos los ingredientes de un plato
 	idplato = localStorageService.get('idPlato');
-	$http.get('https://api-tucocina.herokuapp.com/api/ingredientes/'+idplato)
+	$http.get('https://api-tucocina.herokuapp.com/api/ingredientes/' + idplato)
 		.success(function(data){
 			console.log(data);
 			$scope.ingredientes = data;
@@ -222,7 +223,7 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 			console.log(err);
 		});
 
-	$http.get('https://api-tucocina.herokuapp.com/api/platos/'+idplato)
+	$http.get('https://api-tucocina.herokuapp.com/api/platos/' + idplato)
 		.success(function(data){
 			$ionicLoading.hide();
 
@@ -243,10 +244,7 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 			console.log(err);
 		});
 
-
-
 	$scope.noSelect = function(ingre){
-		
 		// localStorageService.set('ingrediente', ingre);
 		// console.log(ingre);
 	}
@@ -289,9 +287,11 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 	}
 
 	$scope.resumen = function(){
-		divCont = document.getElementById('dinamicos');
+		divCont = document.getElementById('ingredientes');
+		divCont1 = document.getElementById('adicionales');
 		checks  = divCont.getElementsByTagName('input');
-		console.log(checks.length);
+		checks1  = divCont1.getElementsByTagName('input');
+
 		var ingre = [];
 		for(var i =0; i < checks.length; i++){
 		    if(checks[i].checked == true){
@@ -301,8 +301,18 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 		    	
 		    }
 		}
+		var adi = [];
+		for(var i=0; i< checks1.length; i++){
+			if(checks[i].checked == true){
+		    	console.log('valor de i: '+i);
+		    	var  text = checks1[i].value;
+		    	adi[i] = text;
+		    	
+		    }
+		}
 		console.log('Seleccionados: '+text);
 		console.log(ingre);
+		console.log(adi);
 
 		var mesa = localStorageService.get('numMesa');
 		var numPedido = localStorageService.get('numPedido');
@@ -316,6 +326,8 @@ app.controller('pedidosController', function($scope, $location, $http, localStor
 			cantidad: cantidad
 		};
 		localStorageService.set('pedido-'+numPedido, pedido);
+		localStorageService.set('ingredientes-'+numPedido,ingre);
+		localStorageService.set('adicionales-'+numPedido, adi);
 
 		// var numPedido = localStorageService.get('numPedido');
 		numPedido = numPedido+1;
@@ -333,9 +345,16 @@ app.controller('resumenController', function($scope, $ionicPopup, $timeout, $loc
 	var pedido = localStorageService.get('pedido');
 	var numPedido = localStorageService.get('numPedido');
 	var pedidos = [];
+	var ingredientes = [];
+	var adicionales = [];
+
 	for(var i = 1; i <= numPedido; i++){
 		var mypedido = localStorageService.get('pedido-'+i);
+		var myingre = localStorageService.get('ingredientes-'+i);
+		var myadi = localStorageService.get('adicionales-'+i);
 		pedidos[i] = mypedido;
+		ingredientes[i] = myingre;
+		adicionales[i] = myadi;
 		// $scope.precioFinal += pedido.precio;
 		if(mypedido != null){
 			console.log('pedido: '+mypedido.precio);
@@ -378,18 +397,37 @@ app.controller('resumenController', function($scope, $ionicPopup, $timeout, $loc
        	var pedido = localStorageService.get('pedido');
 		var numPedido = localStorageService.get('numPedido');
 		var pedidos = [];
+		var ingredientes = [];
+		var adicionales = [];
 		for(var i = 1; i <= numPedido; i++){
 			var mypedido = localStorageService.get('pedido-'+i);
+			var myingre = localStorageService.get('ingredientes-'+i);
+			var myadi = localStorageService.get('adicionales-'+i);
 			pedidos[i] = mypedido;
+			ingredientes[i] = myingre;
+			adicionales[i] = myadi;
 			// $scope.precioFinal += pedido.precio;
 		}
 		var precioFinal = localStorageService.get('precioFinal');
 
 		var pedidoFinal = pedidos.filter(Boolean);
 
+		if (ingredientes != null) {
+			var ingredientesFinal = ingredientes.filter(Boolean);
+		}else{
+			var ingredientesFinal = ingredientes;
+		}
+		if (adicionales != null) {
+			var adicionalesFinal = adicionales.filter(Boolean);
+		}else{
+			var adicionalesFinal = adicionales;
+		}
+
 		var pedido = {
 			pedido: pedidoFinal,
-			precioFinal: precioFinal
+			precioFinal: precioFinal,
+			ingredientes: ingredientesFinal,
+			adicionales: adicionalesFinal
 		};
 
 		$http.post('https://api-tucocina.herokuapp.com/api/pedidos', pedido)
@@ -406,7 +444,7 @@ app.controller('resumenController', function($scope, $ionicPopup, $timeout, $loc
 					var numPedido = localStorageService.get('numPedido');
 					var pedidos = [];
 					for(var i = 1; i <= numPedido; i++){
-						var mypedido = localStorageService.remove('pedido-'+i);
+						localStorageService.remove('pedido-'+i +', ingredientes-'+i+', adicionales-'+i);
 					}
 
 			     	$scope.hacerPedido = false;
